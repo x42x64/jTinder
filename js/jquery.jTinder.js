@@ -20,6 +20,7 @@
 			rotationRatio: 8,			
 		};
 
+    var tinderslide = null;
 	var container = null;
 	var panes = null;
 	var $that = null;
@@ -40,19 +41,26 @@
 	Plugin.prototype = {
 
 
-		init: function (element) {
 
-			container = $(">ul", element);
-			panes = $(">ul>li", element);
-			pane_width = container.width();
-			pane_count = panes.length;
-			current_pane = panes.length - 1;
-			$that = this;
+        init: function (element) {
+            $that = this;
+            tinderslide = element;
 
-			$(element).bind('touchstart mousedown', this.handler);
-			$(element).bind('touchmove mousemove', this.handler);
-			$(element).bind('touchend mouseup', this.handler);
-		},
+            $that.startOver();
+
+            $(element).bind('touchstart mousedown', this.handler);
+            $(element).bind('touchmove mousemove', this.handler);
+            $(element).bind('touchend mouseup', this.handler);
+        },
+
+        startOver: function () {
+            container = $(">ul", tinderslide);
+            panes = $(">ul>li", tinderslide);
+            pane_width = container.width();
+            pane_count = panes.length;
+            current_pane = panes.length - 1;
+
+        },
 
 		showPane: function (index) {
 			panes.eq(current_pane).hide();
