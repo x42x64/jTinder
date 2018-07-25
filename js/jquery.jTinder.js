@@ -28,7 +28,7 @@
 	var yStart = 0;
 	var paneYStart = 0;
 	var touchStart = false;
-	var posX = 0, posY = 0, lastPosX = 0, lastPosY = 0, pane_width = 0, pane_count = 0, current_pane = 0;
+	var posX = 0, posY = 0, lastPosX = 0, lastPosY = 0, pane_width = 0, pane_count = 0, current_pane = -1;
 
 	function Plugin(element, options) {
 		this.element = element;
@@ -54,11 +54,13 @@
         },
 
         startOver: function () {
+            //var old_pane_count = pane_count;
+            var offset_from_top = pane_count - current_pane;
             container = $(">ul", tinderslide);
             panes = $(">ul>li", tinderslide);
             pane_width = container.width();
             pane_count = panes.length;
-            current_pane = panes.length - 1;
+            current_pane = panes.length - 1;//offset_from_top;
 
         },
 
@@ -71,7 +73,7 @@
 			// Call to onBeforeNext if available, passing the current
 			// index as an argument
 			$that.settings.onBeforeNext
-				&& $that.settings.onBeforeNext(current_pane);
+				&& $that.settings.onBeforeNext(panes.eq(current_pane));
 
 			//@link https://github.com/Stemlet/jTinder/commit/f3565b6f2376ebaf013306829b2b3fcfa5f4c938
 			// PR#1: Call to onFinish if available, no arguments passed
@@ -82,7 +84,7 @@
 			// Call to onAfterNext if available, passing the current
 			// index as an argument
 			$that.settings.onAfterNext
-				&& $that.settings.onAfterNext(current_pane);
+				&& $that.settings.onAfterNext(panes.eq(current_pane));
 			return showResult;
 		},
 
